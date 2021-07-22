@@ -16,6 +16,26 @@ export default class App extends Component {
     number: "",
   };
 
+  // Life-cycle method at mounting this APP
+  componentDidMount() {
+    const contacts = localStorage.getItem("contacts");
+    const jsonParsedContacts = JSON.parse(contacts);
+
+    if (jsonParsedContacts) {
+      this.setState({ contacts: jsonParsedContacts });
+    }
+  }
+
+  // Life-cycle method upon changes in this APP
+  componentDidUpdate(prevState) {
+    const prevStateContacts = prevState.contacts;
+    const newStateContacts = this.state.contacts;
+
+    if (prevStateContacts !== newStateContacts) {
+      localStorage.setItem("contacts", JSON.stringify(newStateContacts));
+    }
+  }
+
   // Add contact function
   addContact = ({ name, number }) => {
     const { contacts } = this.state;
